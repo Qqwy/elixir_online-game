@@ -21,7 +21,6 @@ defmodule Game.Resources do
   end
 
   for resource_name <- @resources do
-    # def :"get_#{unquote(resource_name)}"(resources_struct = %__MODULE__{}) do
     def get(resources_struct = %__MODULE__{}, unquote(resource_name)) do
       key = get_resource_key(unquote(resource_name))
       Map.get(resources_struct, key)
