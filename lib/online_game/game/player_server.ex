@@ -59,7 +59,7 @@ defmodule Game.PlayerServer do
   defhandleinfo :first_tick!, state: state do
     updated_state = tick_until_updated(state)
     GamePersistence.Persistence.persist_player(updated_state)
-    IO.puts "First tick completed for #{inspect(state.user_id)}"
+    # IO.puts "First tick completed for #{inspect(state.user_id)}"
     send_next_tick()
     broadcast_update(updated_state)
     new_state(updated_state)

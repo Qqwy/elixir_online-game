@@ -13,7 +13,7 @@ defmodule GamePersistence.Implementations.FileSystem do
     case File.read(filepath(user_id)) do
       {:ok, data} ->
         user_state = :erlang.binary_to_term(data)
-        # Map.put(user_state, :last_player_tick_datetime, Timex.now())
+        Map.put(user_state, :last_player_tick_datetime, Timex.now())
         {:ok, user_state}
       _ ->
         :error
