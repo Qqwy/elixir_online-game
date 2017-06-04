@@ -10,7 +10,7 @@ defmodule Game.PlayerServer do
   noteworthy happens (i.e. the user made a game decision).
   """
 
-  @tick_interval_ms 2_000
+  @tick_interval_ms 1_000
 
   defstart start(user_id)
   defstart start_link(user_id)
@@ -55,15 +55,17 @@ defmodule Game.PlayerServer do
     broadcast_update(updated_state)
     new_state(updated_state)
   end
-  defhandleinfo _, do: noreply()
 
   defhandleinfo :first_tick!, state: state do
     updated_state = tick_until_updated(state)
     GamePersistence.Persistence.persist_player(updated_state)
+    IO.puts "First tick completed for #{inspect(state.user_id)}"
     send_next_tick()
     broadcast_update(updated_state)
     new_state(updated_state)
   end
+
+  defhandleinfo _, do: noreply()
 
   defp send_next_tick() do
     :erlang.send_after(@tick_interval_ms, self(), :tick!)
