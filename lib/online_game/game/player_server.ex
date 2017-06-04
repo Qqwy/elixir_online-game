@@ -2,6 +2,14 @@ defmodule Game.PlayerServer do
   use ExActor.GenServer
   alias Game.PlayerGameState
 
+  @moduledoc """
+  Manages the Player State in a separate thread of execution.
+
+  Sends itself a tick every two seconds to update the state.
+  The Game State is only written to persistence whenever something
+  noteworthy happens (i.e. the user made a game decision).
+  """
+
   @tick_interval_ms 2_000
 
   defstart start(user_id)

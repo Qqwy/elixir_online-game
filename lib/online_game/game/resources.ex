@@ -1,4 +1,10 @@
 defmodule Game.Resources do
+  @moduledoc """
+  Manages the resources part of a PlayerGameState.
+
+  This means acquiring (mining) and selling resources.
+  """
+
   alias Game.Resource
   defstruct [
     {Resource.Stone, 0},
@@ -15,9 +21,17 @@ defmodule Game.Resources do
     @resources
   end
 
+  @doc """
+  Transforms lowercase resource names
+  into uppercase module names that (should) implement the Resource behaviour.
+  """
   def resource_keys do
     resources
     |> Enum.map(&get_resource_key/1)
+  end
+
+  defp get_resource_key(resource_name) do
+    Module.concat(Resource, "#{resource_name}" |> String.capitalize)
   end
 
   for resource_name <- @resources do
@@ -25,10 +39,6 @@ defmodule Game.Resources do
       key = get_resource_key(unquote(resource_name))
       Map.get(resources_struct, key)
     end
-  end
-
-  defp get_resource_key(resource_name) do
-    Module.concat(Resource, "#{resource_name}" |> String.capitalize)
   end
 
   def mine_resources(resources_struct, n_miners) do

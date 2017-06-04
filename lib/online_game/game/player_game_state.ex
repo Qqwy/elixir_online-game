@@ -2,7 +2,8 @@ defmodule Game.PlayerGameState do
   @moduledoc """
   Manages the game state of a single Player's account.
 
-  Stores Plain Old Data, and therefore easily testable/extendable.
+  This is a Plain Old Data finite-state machine,
+  and therefore easily testable/extendable.
   """
 
   defstruct [
