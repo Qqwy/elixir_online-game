@@ -27,7 +27,8 @@ defmodule Game.PlayerServer do
       end
     # IO.inspect(initial_state)
     # IO.inspect(self())
-    send_next_tick()
+    # send_next_tick()
+    :erlang.send_after(1, self(), :first_tick!)
     {:ok, initial_state}
   end
 
@@ -55,6 +56,14 @@ defmodule Game.PlayerServer do
     new_state(updated_state)
   end
   defhandleinfo _, do: noreply()
+
+  defhandleinfo :first_tick!, state: state do
+    updated_state = tick_until_updated(state)
+    GamePersistence.Persistence.persist_player(updated_state)
+    send_next_tick()
+    broadcast_update(updated_state)
+    new_state(updated_state)
+  end
 
   defp send_next_tick() do
     :erlang.send_after(@tick_interval_ms, self(), :tick!)
