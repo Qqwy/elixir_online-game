@@ -1,0 +1,28 @@
+<h1>Online Game</h1>
+<p>
+    Logged in as the default user #1 (no user management set up yet).
+</p>
+
+<p>
+    Balance:
+    <span class="js--player-money">???</span>
+</p>
+
+<p>
+    Miners:
+    <span class="js--player-miners">???</span>
+</p>
+
+<h2>Inventory</h2>
+
+<%= for resource <- Game.Resources.resource_keys do %>
+    <p data-player-resource="<%= resource %>">
+        <%= resource %>
+        <span class="js--player-resource">???</span>
+        <button class="js--player-sell-resource">Sell</button>
+    </p>
+<% end %>
+
+<h2>Game Shop</h2>
+
+<button class="js--player-buy-miner">Buy Miner</button>
